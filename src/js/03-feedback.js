@@ -24,7 +24,7 @@ refs.textarea.value =
     ? ''
     : localStorageData.message;
 
-const feedbackContent = { ...localStorageData };
+let feedbackContent = { ...localStorageData };
 refs.form.addEventListener('input', throttle(onTextInput, 500));
 refs.submBtn.addEventListener('click', onSubmit);
 
@@ -37,6 +37,6 @@ function onSubmit(event) {
   event.preventDefault();
   localStorage.clear();
   console.log(feedbackContent);
-  refs.emailInput.value = '';
-  refs.textarea.value = '';
+  feedbackContent = {};
+  refs.form.reset();
 }
