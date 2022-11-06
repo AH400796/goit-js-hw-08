@@ -11,11 +11,14 @@ function onPlay(data) {
 }
 
 let timeStamp = 0;
-try {
-  timeStamp = JSON.parse(localStorage.getItem('videoplayer-current-time'));
-} catch (error) {}
 
-if (timeStamp === 0) {
-  player.setCurrentTime(timeStamp);
+if (localStorage) {
+  try {
+    timeStamp = JSON.parse(
+      localStorage.getItem('videoplayer-current-time')
+    ).seconds;
+  } catch (error) {}
+} else {
+  timeStamp = 0;
 }
-player.setCurrentTime(timeStamp.seconds);
+player.setCurrentTime(timeStamp);

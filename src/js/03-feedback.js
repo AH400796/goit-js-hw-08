@@ -11,7 +11,7 @@ let localStorageData;
 try {
   localStorageData = JSON.parse(localStorage.getItem('feedback-form-state'));
 } catch (error) {
-  alert('Ooops! Something wrong with localStorage data');
+  alert('Ooops! ERROR! (Something wrong with localStorage data)');
 }
 
 refs.emailInput.value =
