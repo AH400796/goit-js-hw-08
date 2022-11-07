@@ -7,36 +7,42 @@ const refs = {
   submBtn: document.querySelector('button[type="submit"]'),
 };
 
-let localStorageData;
-try {
-  localStorageData = JSON.parse(localStorage.getItem('feedback-form-state'));
-} catch (error) {
-  alert('Ooops! ERROR! (Something wrong with localStorage data)');
-}
+const STORAGE_KEY = 'feedback-form-state';
+let localStorageObj;
 
-refs.emailInput.value =
-  !localStorageData || !localStorageData.hasOwnProperty('email')
-    ? ''
-    : localStorageData.email;
-
-refs.textarea.value =
-  !localStorageData || !localStorageData.hasOwnProperty('message')
-    ? ''
-    : localStorageData.message;
-
-let feedbackContent = { ...localStorageData };
 refs.form.addEventListener('input', throttle(onTextInput, 500));
 refs.submBtn.addEventListener('click', onSubmit);
 
+readLocalStorageData();
+
+writeDataFromLocalStorage();
+
+let feedbackContent = { ...localStorageObj };
+
 function onTextInput(event) {
   feedbackContent[event.target.getAttribute('name')] = event.target.value;
-  localStorage.setItem('feedback-form-state', JSON.stringify(feedbackContent));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(feedbackContent));
 }
 
 function onSubmit(event) {
   event.preventDefault();
-  localStorage.clear();
+  localStorage.removeItem(STORAGE_KEY);
   console.log(feedbackContent);
   feedbackContent = {};
   refs.form.reset();
+}
+
+function readLocalStorageData() {
+  try {
+    localStorageObj = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    alert('Ooops! ERROR! (Something wrong with localStorage data)');
+  }
+}
+
+function writeDataFromLocalStorage() {
+  if (localStorageObj) {
+    refs.emailInput.value = localStorageObj.email || '';
+    refs.textarea.value = localStorageObj.message || '';
+  }
 }
