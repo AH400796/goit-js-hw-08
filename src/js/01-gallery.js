@@ -7,11 +7,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const gallery = document.querySelector('.gallery');
 
 const markUpGallery = galleryItems
-  .map(({ preview, original, description }) => {
-    return `<a class="gallery__item" href="${original}">
+  .map(
+    ({ preview, original, description }) =>
+      `<div class="gallery__item"><a class="gallery__link" href="${original}">
     <img class="gallery__image" src="${preview}" alt=${description}/>
-    </a>`;
-  })
+    </a></div>`
+  )
   .join('');
 
 gallery.innerHTML = markUpGallery;
